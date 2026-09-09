@@ -1,4 +1,5 @@
-THIS IS  SADHIX PAGE
+// This is Sadhix Institute
+
 const express = require('express');
 const path = require('path');
 const mysql = require('mysql');
@@ -21,22 +22,19 @@ connection.connect((err) => {
 });
 
 // Serve static files from the 'public' directory
-// console.log(__dirname);
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Route to serve index.html
+// Root route - shows plain text banner
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public', 'index.html'));
+    res.send('This is Sadhix Institute');
 });
 
 // API Endpoint to Fetch User Details
 app.get("/user/:id", (req, res) => {
     const userId = parseInt(req.params.id);
-
     if (!userId || isNaN(userId)) {
         return res.status(400).json({ error: "Invalid user ID." });
     }
-
     const sqlQuery = `SELECT * FROM USER_INFO WHERE id = ?`;
     connection.query(sqlQuery, [userId], (err, result) => {
         if (err) {
@@ -45,7 +43,6 @@ app.get("/user/:id", (req, res) => {
         if (result.length === 0) {
             return res.status(404).json({ error: "User not found." });
         }
-        // res.send(result[0].name + ' works for ' + result[0].company_name);
         res.json(result[0]);
     });
 });
