@@ -1,13 +1,10 @@
 // This is Sadhix Institute
-
 const express = require('express');
 const path = require('path');
 const mysql = require('mysql');
-
 // Run express server
 const app = express();
 const PORT = 3000; // You can change the port if needed
-
 // Establishing a connection with the database
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -15,20 +12,16 @@ const connection = mysql.createConnection({
   password: 'Password@1234',
   database: 'sadhixdb'
 });
-
 connection.connect((err) => {
     if (err) throw err;
     console.log("Connected to MySQL database.");
 });
-
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, '../public')));
-
-// Root route - shows plain text banner
+// Root route - shows plain text banner with header
 app.get('/', (req, res) => {
-    res.send('This is Sadhix Institute');
+    res.send('<h1>Students Portal</h1><p>This is Sadhix Institute</p>');
 });
-
 // API Endpoint to Fetch User Details
 app.get("/user/:id", (req, res) => {
     const userId = parseInt(req.params.id);
@@ -46,7 +39,6 @@ app.get("/user/:id", (req, res) => {
         res.json(result[0]);
     });
 });
-
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
 });
